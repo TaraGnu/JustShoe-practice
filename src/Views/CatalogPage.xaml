@@ -1,0 +1,77 @@
+﻿<Page x:Class="JustShop.Views.CatalogPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:JustShop.Views.Controls"
+      Title="Каталог обуви"
+      FontFamily="Times New Roman"
+      Background="{StaticResource PrimaryBackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:TopBarControl Grid.Row="0"
+                                x:Name="TopBar"
+                                Title="Каталог обуви"
+                                ShowCatalogButton="False"
+                                LoginRequested="TopBar_LoginRequested"
+                                LogoutRequested="TopBar_LogoutRequested"
+                                OrdersRequested="TopBar_OrdersRequested"/>
+
+        <!-- Панель фильтров и добавления: только staff -->
+        <Border Grid.Row="1" Padding="16,12"
+                Visibility="{Binding CanFilter, Converter={StaticResource BoolToVisibility}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="14"
+                         ToolTip="Поиск по артикулу, категории, производителю, поставщику, описанию, единице измерения"/>
+
+                <ComboBox Grid.Column="1" Margin="12,0,0,0"
+                          ItemsSource="{Binding Suppliers}"
+                          SelectedItem="{Binding SelectedSupplier}"/>
+
+                <ComboBox Grid.Column="2" Margin="12,0,0,0"
+                          ItemsSource="{Binding Categories}"
+                          SelectedItem="{Binding SelectedCategory}"/>
+
+                <ComboBox Grid.Column="3" Margin="12,0,0,0"
+                          ItemsSource="{Binding ShoesTypes}"
+                          SelectedItem="{Binding SelectedShoesType}"/>
+
+                <ComboBox Grid.Column="4" Margin="12,0,0,0"
+                          ItemsSource="{Binding SortOptions}"
+                          SelectedItem="{Binding SelectedSort}"/>
+
+                <Button Grid.Column="5" Content="Добавить товар"
+                        Click="AddProduct_Click"
+                        Margin="12,0,0,0"
+                        Background="{StaticResource AccentBrush}"
+                        Padding="14,6"
+                        Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibility}}"/>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="2" Padding="16,0,16,16" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Cards}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ShoeCardControl MouseLeftButtonUp="Card_MouseLeftButtonUp"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

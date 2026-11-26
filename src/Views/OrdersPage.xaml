@@ -1,0 +1,49 @@
+﻿<Page x:Class="JustShop.Views.OrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:JustShop.Views.Controls"
+      Title="Заказы"
+      FontFamily="Times New Roman"
+      Background="{StaticResource PrimaryBackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:TopBarControl Grid.Row="0"
+                                x:Name="TopBar"
+                                Title="Заказы"
+                                ShowOrdersButton="False"
+                                CatalogRequested="TopBar_CatalogRequested"
+                                LoginRequested="TopBar_LoginRequested"
+                                LogoutRequested="TopBar_LogoutRequested"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="16">
+            <Button Content="← Назад"
+                    Click="Back_Click"
+                    Background="{StaticResource AccentBrush}"
+                    Padding="14,8"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Orders}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  Margin="16"
+                  RowHeaderWidth="0"
+                  AlternatingRowBackground="{StaticResource SecondaryBackgroundBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Id}" Width="60"/>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateOrder, StringFormat='dd.MM.yyyy'}" Width="120"/>
+                <DataGridTextColumn Header="Клиент" Binding="{Binding UserFullName}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusName}" Width="140"/>
+                <DataGridTextColumn Header="Пункт выдачи" Binding="{Binding PickUpPoint}" Width="220"/>
+                <DataGridTextColumn Header="Код" Binding="{Binding Code}" Width="70"/>
+                <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, StringFormat='{}{0:N0} ₽'}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

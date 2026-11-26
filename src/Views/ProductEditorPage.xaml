@@ -1,0 +1,133 @@
+﻿<Page x:Class="JustShop.Views.ProductEditorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:JustShop.Views.Controls"
+      Title="Товар"
+      FontFamily="Times New Roman"
+      Background="{StaticResource PrimaryBackgroundBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:TopBarControl Grid.Row="0"
+                                x:Name="TopBar"
+                                Title="Товар"
+                                CatalogRequested="TopBar_CatalogRequested"
+                                LoginRequested="TopBar_LoginRequested"
+                                LogoutRequested="TopBar_LogoutRequested"
+                                OrdersRequested="TopBar_OrdersRequested"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="16,12">
+            <Button Content="← Назад" Click="Back_Click"
+                    Background="{StaticResource AccentBrush}"
+                    Padding="14,8"/>
+            <TextBlock Text="{Binding HeaderText}"
+                       FontSize="20" FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" Padding="16,0,16,16" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Margin="0,0,24,0"
+                        BorderBrush="{StaticResource BorderBrushLight}"
+                        BorderThickness="1" Padding="8"
+                        VerticalAlignment="Top">
+                    <StackPanel>
+                        <Image Source="{Binding ImagePath}"
+                               Width="200" Height="140"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Button Content="Загрузить фото"
+                                Command="{Binding PickImageCommand}"
+                                Margin="0,10,0,0"
+                                Background="{StaticResource AccentBrush}"/>
+                        <TextBlock Text="Фото будет уменьшено до 300×200"
+                                   FontSize="11"
+                                   Foreground="{StaticResource TextMutedBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="ID товара" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding Id, Mode=OneWay}"
+                             IsReadOnly="True"
+                             Background="#F5F5F5"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Наименование (артикул)" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding Articul, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Категория" FontSize="13" Margin="0,0,0,4"/>
+                    <ComboBox ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory}"
+                              DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Вид обуви" FontSize="13" Margin="0,0,0,4"/>
+                    <ComboBox ItemsSource="{Binding ShoesTypes}"
+                              SelectedItem="{Binding SelectedShoesType}"
+                              DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Производитель" FontSize="13" Margin="0,0,0,4"/>
+                    <ComboBox ItemsSource="{Binding Fabricators}"
+                              SelectedItem="{Binding SelectedFabricator}"
+                              DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Поставщик" FontSize="13" Margin="0,0,0,4"/>
+                    <ComboBox ItemsSource="{Binding Suppliers}"
+                              SelectedItem="{Binding SelectedSupplier}"
+                              DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Описание" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                             Height="70" TextWrapping="Wrap" AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Единица измерения" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding Units, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Цена, ₽" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding PriceText, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="Decimal_PreviewTextInput"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Количество на складе" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding QuantityText, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="Int_PreviewTextInput"
+                             Margin="0,0,0,10"/>
+
+                    <TextBlock Text="Скидка, %" FontSize="13" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding DiscountText, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="Decimal_PreviewTextInput"
+                             Margin="0,0,0,16"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Сохранить"
+                                Command="{Binding SaveCommand}"
+                                Background="{StaticResource AccentBrush}"
+                                Padding="18,8" Margin="0,0,10,0"/>
+                        <Button Content="Удалить"
+                                Command="{Binding DeleteCommand}"
+                                Background="{StaticResource DangerBrush}"
+                                Foreground="White"
+                                Padding="18,8"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
